@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resources :accounts, only: [:new, :create]
 
   resources :pdf_files, only: [:index, :new, :create, :destroy] do 
-    resources :slides, only: [:index, :show]
+    resources :slides, only: [:index, :show, :update] do
+      resources :comments, only: [:create, :destroy]
+    end
+    resources :comments, only: [:create, :destroy]
   end
   root "pdf_files#index"
 
