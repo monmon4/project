@@ -4,7 +4,7 @@ class SlidesController < ApplicationController
   # GET /slides
   # GET /slides.json
   def index
-    @slides = PdfFile.find(params[:pdf_file_id]).slides
+    @slides = PdfFile.find(params[:pdf_file_id]).slides.paginate(page: params[:page], per_page: 10)
     @pdf_file = PdfFile.find(params[:pdf_file_id])
   end
 
@@ -64,7 +64,8 @@ class SlidesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_slide
-      @slide = Slide.find(params[:id])
+      @slide = Slide.find_by(id: params[:id])
+
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

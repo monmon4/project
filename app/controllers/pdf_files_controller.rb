@@ -1,6 +1,6 @@
 class PdfFilesController < ApplicationController
   def index
-  	@pdf_file =PdfFile.all
+  	@pdf_file =PdfFile.all.paginate(page: params[:page], per_page: 10)
    end
 
   def new
@@ -13,8 +13,8 @@ class PdfFilesController < ApplicationController
     if @pdf_file.save
        pdf = Magick::ImageList.new("public#{@pdf_file.attachment}")
       pdf.each_with_index do |img, i|
-        img.write "app/assets/images/#{@pdf_file.name}_#{i}.jpg"
-        @pdf_file.slides.create(title: "#{@pdf_file.name}_#{i}.jpg", likes: 0)
+        img.write "app/assets/images/#{@pdf_file.name}_#{i+1}.jpg"
+        @pdf_file.slides.create(title: "#{@pdf_file.name}_#{i+1}.jpg", likes: 0)
       end
     redirect_to pdf_files_path, notice: "The pdf_file #{@pdf_file.name} has been uploaded."
      else

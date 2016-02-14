@@ -17,6 +17,7 @@
 <%=link_to link, pdf_file_slide_path, method: :put %>
 </p>
 
+
 <%= render @slide.comments.order(created_at: :desc)%>
 
 <%= render 'comments/form'%>
